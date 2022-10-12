@@ -3,16 +3,50 @@
 <head>
     <title>Web Console</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="patternfly.css">
 </head>
 <body>
-    <h1>Web Console</h1>
-
-    <p>Waiting for target system to connect. This may take some time...</p>
-
-    <p>Session status: <span id="session-status"></span></p>
-
-    <p id="error"></p>
-
+  <div id="root">
+    <div tabindex="-1" style="outline: none;">
+      <div class="pf-u-h-100">
+        <div class="pf-u-h-100">
+          <div class="pf-c-page">
+            <header class="pf-c-masthead">
+              <div class="pf-c-masthead__main"></div>
+            </header>
+            <main class="pf-c-page__main" tabindex="-1">
+              <section class="pf-c-page__main-section pf-m-limit-width pf-m-light">
+                <div class="pf-c-page__main-body">
+                  <div class="pf-c-content">
+                    <h1>Web console</h1>
+                    <p>Waiting for target system to connect. This may take some time...</p>
+                  </div>
+                </div>
+              </section>
+              <section class="pf-c-page__main-section">
+                <div class="pf-c-page__main-body">
+                  <div class="pf-l-gallery pf-m-gutter">
+                    <div class="pf-c-empty-state pf-m-sm">
+                      <div class="pf-c-empty-state__content">
+                        <div class="pf-c-empty-state__icon">
+                          <span class="pf-c-spinner" role="progressbar" aria-label="Loading...">
+                            <span class="pf-c-spinner__clipper"></span>
+                            <span class="pf-c-spinner__lead-ball"></span>
+                            <span class="pf-c-spinner__tail-ball"></span>
+                          </span>
+                        </div>
+                        <h2 class="pf-c-title pf-m-lg">Session status: <span id="session-status"></span></h2>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </section>
+            </main>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
     <script type="text/javascript">
         const API = document.URL.replace('/wss/', '/api/').replace(/\/web\/.*$/, '/');
         const el_status = document.getElementById("session-status");

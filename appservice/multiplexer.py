@@ -18,7 +18,7 @@ import websockets.exceptions
 from starlette.applications import Starlette
 from starlette.background import BackgroundTask
 from starlette.concurrency import run_until_first_complete
-from starlette.responses import HTMLResponse, PlainTextResponse, JSONResponse, StreamingResponse
+from starlette.responses import FileResponse, HTMLResponse, PlainTextResponse, JSONResponse, StreamingResponse
 from starlette.websockets import WebSocket
 
 import config
@@ -295,6 +295,11 @@ async def handle_session_id_ws(ws: WebSocket):
     ip = SESSIONS[sessionid]['ip']
     await websocket_forward(ws, f'ws://{ip}:9090{ws.url.path}')
     await update_session(sessionid, 'closed')
+
+
+@app.route(f'{config.ROUTE_WSS}/sessions/{{sessionid}}/web/patternfly.css', methods=['GET', 'HEAD'])
+async def handle_session_id_css(upstream_req):
+    return FileResponse(os.path.join(MY_DIR, 'patternfly.css'))
 
 
 @app.route(f'{config.ROUTE_WSS}/sessions/{{sessionid}}/web/{{path:path}}', methods=['GET', 'HEAD'])
