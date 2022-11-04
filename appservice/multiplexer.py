@@ -54,7 +54,7 @@ def init():
 
     REDIS = redis.asyncio.Redis(host=os.environ['REDIS_SERVICE_HOST'],
                                 port=int(os.environ.get('REDIS_SERVICE_PORT', '6379')))
-    for html_name in ('wait-session.html', 'closed-session.html'):
+    for html_name in ('wait-session.html', 'closed-session.html', 'unknown-session.html'):
         with open(os.path.join(MY_DIR, html_name)) as f:
             STATIC_HTML[html_name] = f.read()
 
@@ -309,7 +309,7 @@ async def handle_session_id_http(upstream_req):
     sessionid = upstream_req.path_params['sessionid']
     session = SESSIONS.get(sessionid)
     if session is None:
-        return PlainTextResponse('unknown session ID', status_code=404)
+        return HTMLResponse(STATIC_HTML['unknown-session.html'])
     if session['status'] == 'closed':
         return HTMLResponse(STATIC_HTML['closed-session.html'])
     elif session['status'] != 'running':
